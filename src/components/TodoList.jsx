@@ -38,7 +38,9 @@ const TodoList = () => {
   return (
     <div>
       <h2>Todo List</h2>
-      <button onClick={handleBulkSelect}>{bulkSelectMode ? "Cancel Bulk Select" : "Bulk Select"}</button>
+      {todos.length > 1 && (
+        <button onClick={handleBulkSelect}>{bulkSelectMode ? "Cancel Bulk Select" : "Bulk Select"}</button>
+      )}
       {selectedTodos.length > 0 && (
         <>
           <button onClick={confirmClearSelectedTodos}>Clear Selected</button>
