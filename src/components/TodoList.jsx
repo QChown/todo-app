@@ -22,8 +22,15 @@ const TodoList = () => {
     clearSelectedTodos();
   };
   const handleSelectAll = () => {
+    console.log(selectedTodos);
     {
-      todos.map((todo) => toggleTodo(todo.id));
+      todos.map((todo) => {
+        if (selectedTodos.includes(todo.id)) {
+          return;
+        } else {
+          toggleTodo(todo.id);
+        }
+      });
     }
     console.log(todos.length);
   };
