@@ -41,6 +41,7 @@ export const TodoProvider = ({ children }) => {
 
   const handleClearSelected = () => {
     setShowConfirmationModal(false);
+    setBulkSelectMode(false);
     if (selectedTodos.length > 0) {
       setTodos((prevTodos) => {
         const remainingTodos = prevTodos.filter((todo) => !selectedTodos.includes(todo.id));
@@ -72,6 +73,7 @@ export const TodoProvider = ({ children }) => {
       confirmClearSelectedTodos,
       handleClearSelected,
       clearTodos,
+      setBulkSelectMode,
     };
   }, [todos, selectedTodos, showConfirmationModal, bulkSelectMode]);
 

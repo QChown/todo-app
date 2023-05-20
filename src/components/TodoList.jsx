@@ -2,8 +2,15 @@ import React, { useContext, useState } from "react";
 import { TodoContext } from "../context/TodoContext";
 
 const TodoList = () => {
-  const { todos, selectedTodos, toggleTodo, confirmClearSelectedTodos, clearSelectedTodos } = useContext(TodoContext);
-  const [bulkSelectMode, setBulkSelectMode] = useState(false);
+  const {
+    todos,
+    selectedTodos,
+    toggleTodo,
+    confirmClearSelectedTodos,
+    clearSelectedTodos,
+    bulkSelectMode,
+    setBulkSelectMode,
+  } = useContext(TodoContext);
 
   const handleToggle = (todoId) => {
     if (bulkSelectMode) {
