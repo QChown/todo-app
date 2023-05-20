@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 
 export const TodoContext = createContext();
 
@@ -12,22 +12,26 @@ export const TodoProvider = ({ children }) => {
   const [bulkSelectMode, setBulkSelectMode] = useState(false);
 
   const addTodo = (newTodo) => {
-    setTodos([...todos, newTodo]);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
   const removeTodo = (todoId) => {
-    setTodos(todos.filter((todo) => todo.id !== todoId));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
   };
 
   const toggleTodo = (todoId) => {
-    if (selectedTodos.includes(todoId)) {
-      setSelectedTodos(selectedTodos.filter((id) => id !== todoId));
-    } else {
-      setSelectedTodos([...selectedTodos, todoId]);
-    }
+    console.log("selected todo");
+    setSelectedTodos((prevSelectedTodos) => {
+      if (prevSelectedTodos.includes(todoId)) {
+        return prevSelectedTodos.filter((id) => id !== todoId);
+      } else {
+        return [...prevSelectedTodos, todoId];
+      }
+    });
   };
 
   const clearSelectedTodos = () => {
+    console.log("clear");
     setSelectedTodos([]);
   };
 
@@ -40,34 +44,38 @@ export const TodoProvider = ({ children }) => {
   const handleClearSelected = () => {
     setShowConfirmationModal(false);
     if (selectedTodos.length > 0) {
-      const remainingTodos = todos.filter((todo) => !selectedTodos.includes(todo.id));
-      setTodos(remainingTodos);
-      setSelectedTodos([]);
+      setTodos((prevTodos) => {
+        const remainingTodos = prevTodos.filter((todo) => !selectedTodos.includes(todo.id));
+        clearSelectedTodos();
+        return remainingTodos;
+      });
     }
   };
 
   const clearTodos = () => {
     setTodos([]);
-    setSelectedTodos([]);
+    clearSelectedTodos();
   };
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const contextValues = {
-    todos,
-    selectedTodos,
-    showConfirmationModal,
-    bulkSelectMode,
-    addTodo,
-    removeTodo,
-    toggleTodo,
-    clearSelectedTodos,
-    confirmClearSelectedTodos,
-    clearTodos,
-    handleClearSelected,
-  };
+  const contextValues = useMemo(() => {
+    return {
+      todos,
+      selectedTodos,
+      showConfirmationModal,
+      bulkSelectMode,
+      addTodo,
+      removeTodo,
+      toggleTodo,
+      clearSelectedTodos,
+      confirmClearSelectedTodos,
+      handleClearSelected,
+      clearTodos,
+    };
+  }, [todos, selectedTodos, showConfirmationModal, bulkSelectMode]);
 
   return <TodoContext.Provider value={contextValues}>{children}</TodoContext.Provider>;
 };

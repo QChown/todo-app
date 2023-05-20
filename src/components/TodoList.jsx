@@ -8,11 +8,13 @@ const TodoList = () => {
   const handleToggle = (todoId) => {
     if (bulkSelectMode) {
       toggleTodo(todoId);
+    } else {
+      return;
     }
   };
 
   const handleBulkSelect = () => {
-    setBulkSelectMode(!bulkSelectMode);
+    setBulkSelectMode((prevBulkSelectMode) => !prevBulkSelectMode);
   };
 
   return (
