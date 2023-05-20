@@ -2,18 +2,29 @@ import React, { useContext, useState } from "react";
 import { TodoContext } from "../context/TodoContext";
 
 const TodoList = () => {
-  const { todos, selectedTodos, toggleTodo, confirmClearSelectedTodos, handleClearSelected } = useContext(TodoContext);
+  const { todos, selectedTodos, toggleTodo, confirmClearSelectedTodos, clearSelectedTodos } = useContext(TodoContext);
   const [bulkSelectMode, setBulkSelectMode] = useState(false);
 
   const handleToggle = (todoId) => {
     if (bulkSelectMode) {
       toggleTodo(todoId);
-    } else {
-      return;
     }
   };
 
+  const handleUnselectAll = () => {
+    clearSelectedTodos();
+  };
+  const handleSelectAll = () => {
+    {
+      todos.map((todo) => toggleTodo(todo.id));
+    }
+    console.log(todos.length);
+  };
+
   const handleBulkSelect = () => {
+    if (bulkSelectMode) {
+      clearSelectedTodos();
+    }
     setBulkSelectMode((prevBulkSelectMode) => !prevBulkSelectMode);
   };
 
@@ -24,9 +35,10 @@ const TodoList = () => {
       {selectedTodos.length > 0 && (
         <>
           <button onClick={confirmClearSelectedTodos}>Clear Selected</button>
-          <button onClick={handleClearSelected}>Cancel Clear</button>
+          <button onClick={handleUnselectAll}>Unselect All</button>
         </>
       )}
+      {bulkSelectMode && selectedTodos.length != todos.length && <button onClick={handleSelectAll}>Select All</button>}
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>

@@ -20,7 +20,6 @@ export const TodoProvider = ({ children }) => {
   };
 
   const toggleTodo = (todoId) => {
-    console.log("selected todo");
     setSelectedTodos((prevSelectedTodos) => {
       if (prevSelectedTodos.includes(todoId)) {
         return prevSelectedTodos.filter((id) => id !== todoId);
@@ -31,7 +30,6 @@ export const TodoProvider = ({ children }) => {
   };
 
   const clearSelectedTodos = () => {
-    console.log("clear");
     setSelectedTodos([]);
   };
 
