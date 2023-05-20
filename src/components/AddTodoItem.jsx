@@ -1,4 +1,3 @@
-// components/AddTodoList.js
 import React, { useContext, useState } from "react";
 import { TodoContext } from "../context/TodoContext";
 
