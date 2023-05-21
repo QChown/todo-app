@@ -22,7 +22,6 @@ const TodoList = () => {
     clearSelectedTodos();
   };
   const handleSelectAll = () => {
-    console.log(selectedTodos);
     {
       todos.map((todo) => {
         if (selectedTodos.includes(todo.id)) {
@@ -32,7 +31,6 @@ const TodoList = () => {
         }
       });
     }
-    console.log(todos.length);
   };
 
   const handleBulkSelect = () => {
